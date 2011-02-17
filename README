@@ -55,3 +55,8 @@ are in Matlab-style 1-based [row,col] coordinates. There is a flag in the code
 you can switch if you prefer C-style 0-based [x,y] coordinates, or else you can
 just modify the return value.
 
+
+3) Contact:
+
+Questions/comments/bugfixes welcome.
+Email me at: atcheson [NOSPAM] [at] cs [dot] ubc [dot] ca
