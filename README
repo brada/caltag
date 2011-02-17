@@ -1,6 +1,11 @@
 CALTag instructions for use:
 ----------------------------
 
+0) Requirements:
+
+- MATLAB (tested with R2010a) with Image Processing toolbox
+- Python (tested with 2.6)
+
 
 1) Create pattern and datafile:
 
