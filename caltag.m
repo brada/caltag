@@ -480,6 +480,20 @@ if isempty(R)
 end
 
 
+% Bugfix 6/June/2011 [Nassir] - solve problem whereby perfectly axis-aligned image
+% could not be detected because some markers had orientation epsilon and
+% others had orientation 2*pi-epsilon, so they were all very different
+% from the median and ended up all being rejected as outliers. Solution
+% is to clamp values near to the -pi/pi crossover point to one side
+newOrientation = [R.orientation] + pi;
+wrapAround = abs( newOrientation - 2*pi ) < 0.001;
+for i = 1:length(R)
+    if wrapAround(i)
+        R(i).orientation = -pi;
+    end
+end
+
+
 % filter out the regions with orientations more than 30 degrees different
 % from the median orientation
 % can't use mean because epsilon and 2pi-epsilon should be considered very
