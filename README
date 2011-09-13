@@ -12,6 +12,7 @@ CALTag instructions for use:
 Run the generate_pattern.py script and convert the ps file to pdf, e.g.:
 
 $ cd GeneratePattern
+$ chmod u+x generate_pattern
 $ ./generate_pattern -r 8 -c 4
 
 This will produce an output.ps and output.mat file

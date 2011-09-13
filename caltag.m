@@ -7,7 +7,7 @@ function [wPt,iPt] = caltag(I,datafile,debug)
 %
 % Note that saddle_finder will crash is you attempt to find a saddle in a region
 % of constant intensity. So you can't try to mask out saddles by painting blobs
-% of solid colour in gimp over the corners.
+% of solid colour over the corners.
 %
 % Note: it will run much slower if the input image dimensions are prime, because
 % the adaptivethresh function does an FFT across each row and column. For best
@@ -22,10 +22,10 @@ function [wPt,iPt] = caltag(I,datafile,debug)
 %	G and P are 2xN real matrices of class double.
 %
 %	For algorithm details, see
-%	Atcheson, B., Heide, F., Heidrich, W. CALTAG... * unpublished work *
+%	Atcheson, B., Heide, F., Heidrich, W. "CALTag: High Precision Fiducial
+%	Markers for Camera Calibration", VMV 2010
 %
-%	Last modified 22 June 2010
-%   * TODO: sort out license stuff *
+%	Last modified 10 September 2011
 %	This code is public domain. You may use and modify it as you please. Except
 %	for the 3rd party code I used from Peter Kovesi and Jean-Yves Bouguet.
 %

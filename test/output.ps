@@ -1,0 +1,276 @@
+%!PS-Adobe-2.0
+%%Title: CALTag calibration pattern
+%%Pages: 1
+%%BoundingBox: 0 0 612.0 792.0
+%%Orientation: Portrait
+%%Creator: CALTag - automatically generated
+%%CreationDate: 2011-09-10 17:13:18
+%%EndComments
+
+%--------------------- config block ------------------
+
+/layout { 1 } bind def
+
+/spacing { 1.0 } bind def
+
+/columns { 4 } bind def
+
+/rows { 8 } bind def
+
+/drawcropmarkers { true } bind def
+
+/markerids { [
+197 335 394 457
+603 670 733 788
+855 914 977 1139
+1206 1269 1340 1407
+1466 1529 1576 1643
+1710 1773 1828 1895
+1954 2017 2083 2213
+2278 2351 2412 2473
+] } bind def
+
+
+
+%------------------- end config block ----------------
+
+ 
+ 
+gsave 
+ 
+% hairlines for crop markers 
+0.001 setlinewidth 
+ 
+% coordinate frame: 
+% spacing is 1/8 inch (= 9 pt) * specified value 
+9 spacing mul dup scale 
+% move origin a bit to maximize space 
+-2 -2 translate 
+ 
+% total number of markers 
+/nummark { columns rows mul } bind def 
+ 
+% constant: 1/sqrt(2) 
+/sqtwoinv { 1 2 sqrt div } bind def 
+ 
+% pixel at current position 
+% no stack values consumed 
+/pixel { 
+    gsave 
+    newpath 
+    0 0 moveto 1 0 lineto 1 1 lineto 0 1 lineto 
+    closepath fill 
+    grestore 
+} def 
+ 
+% row starting at current position, left to right 
+% in stack: id 
+% out stack: bit-shifted id 
+/drawrow { 
+    gsave 
+    4 { 
+	dup 1 and 1 eq {pixel} if 
+	-1 0 translate 
+	-1 bitshift 
+    } repeat 
+    grestore 
+} def 
+ 
+% draw code for current marker 
+% stack: id 
+/drawcode { 
+    5 2 translate 
+    gsave 
+    4 { 
+	drawrow 
+	0 1 translate 
+    } repeat 
+    pop 
+    grestore 
+} def 
+ 
+% draw marker 
+% stack: codenumber x y 
+/marker { 
+    1 add exch 1 add exch 
+     
+    layout 1 eq { 
+	% checker-style unrotate pattern 
+	gsave 
+	2 copy 
+	8 mul exch 8 mul exch translate 
+	add 2 mod 1 eq { 
+	    % black background for odd checkers 
+	    0 setgray 
+	    newpath 
+	    0 0 moveto 8 0 lineto 8 8 lineto 0 8 lineto 
+	    closepath fill 
+	    % white boxes for 0 pixels 
+	    1 setgray 
+	    drawcode 
+	} { 
+	    % even checkers - black boxes for 1 pixels 
+	    0 setgray 
+	    not drawcode 
+	} ifelse 
+	grestore 
+    } { 
+	% rotated pattern 
+	gsave 
+	8 mul exch 8 mul 4 add exch translate 
+	45 rotate 
+	sqtwoinv dup scale 
+	0 setgray 
+	% black background octagon 
+	newpath 
+	1 0 moveto 7 0 lineto 8 1 lineto 8 7 lineto 7 8 lineto 1 8 lineto 0 7 lineto 0 1 lineto 
+	closepath fill 
+	% white squares for 0 pixels 
+	1 setgray 
+	drawcode 
+	grestore 
+    } ifelse 
+} def 
+ 
+% draw a bowtie 
+% stack: x y 
+/bowtie { 
+    gsave 
+    8 mul exch 8 mul exch translate 
+    0 setgray 
+    newpath 0 0 moveto 0 sqtwoinv -4 mul dup 0 lineto lineto closepath fill 
+    newpath 0 0 moveto 0 sqtwoinv 4 mul dup 0 lineto lineto closepath fill 
+    grestore 
+} def 
+ 
+% draw a horizontal boundary field for the checker layout 
+% stack: x y 
+/hBoundary { 
+    gsave 
+    8 mul exch 8 mul exch translate 
+    0 setgray 
+    newpath 0 0 moveto 8 0 lineto 8 4 lineto 0 4 lineto closepath fill 
+    grestore 
+} def 
+ 
+% draw a vertical boundary field for the checker layout 
+% stack: x y 
+/vBoundary { 
+    gsave 
+    8 mul exch 8 mul exch translate 
+    0 setgray 
+    newpath 0 0 moveto 0 8 lineto 4 8 lineto 4 0 lineto closepath fill 
+    grestore 
+} def 
+ 
+% draw a crop marker 
+% stack: x y 
+/cropmarker { 
+    gsave 
+    0 setgray 
+    8 mul exch 8 mul exch translate 
+    newpath -2 0 moveto 2 0 lineto stroke 
+    newpath 0 -2 moveto 0 2  lineto stroke 
+    newpath 0 0 0.2 0 360 arc closepath stroke 
+    grestore 
+} def 
+ 
+ 
+% 
+% actual drawing 
+% 
+ 
+gsave 
+ 
+% draw markers (both layouts) 
+0 1 rows 1 sub { 
+    0 1 columns 1 sub { 
+	2 copy 2 copy 
+	exch columns mul add 
+	markerids exch get 3 1 roll exch marker 
+	pop 
+    } for 
+     
+    pop 
+} for 
+ 
+% layout-specific elements 
+layout 1 eq { 
+    % draw all possible boundary elements in the checker 
+     
+    % draw horizontal boundary fields 
+    1 1 columns { 
+	% draw odd-column boundary fields in row 0 
+	dup 2 mod 1 eq { 
+	    dup 0.5 hBoundary 
+	} if 
+	% draw bundary fields with even (column+height) 
+	dup rows add 2 mod 0 eq { 
+	    dup rows 1 add hBoundary 
+	} if 
+    } for 
+     
+    % draw vertical boundary fields 
+    1 1 rows { 
+	% draw odd-row boundary fields in row 0 
+	dup 2 mod 1 eq { 
+	    dup	0.5 exch vBoundary 
+	} if 
+	% draw bundary fields with even (row+width) 
+	dup columns add 2 mod 0 eq { 
+	    dup	columns 1 add exch vBoundary 
+	} if 
+	1 add 
+    } for 
+     
+    % draw applicable corners 
+    columns 2 mod 0 eq { 
+	% bottom right corner 
+	gsave 
+	columns 1 add 8 mul 8 translate 
+	newpath 0 0 moveto 4 0 lineto 4 -4 lineto 0 -4 lineto closepath fill 
+	grestore 
+    } if 
+    rows 2 mod 0 eq { 
+	% top left corner 
+	gsave 
+	8 rows 1 add 8 mul translate 
+	newpath 0 0 moveto 0 4 lineto -4 4 lineto -4 0 lineto closepath fill 
+	grestore 
+    } if 
+    rows columns add 2 mod 1 eq { 
+	% top right corner 
+	gsave 
+	columns 1 add 8 mul rows 1 add 8 mul translate 
+	newpath 0 0 moveto 0 4 lineto 4 4 lineto 4 0 lineto closepath fill 
+	grestore 
+    } if 
+} { 
+    % draw bowties for rotated grid 
+    1 1 columns 1 add { 
+	1 1 rows 1 add { 
+	    2 copy bowtie 
+	    pop 
+	} for 
+	pop 
+    } for 
+} ifelse 
+ 
+ 
+% optional paper crop markers 
+drawcropmarkers { 
+    .5 rows 1.5 add cropmarker 
+    columns 1.5 add rows 1.5 add cropmarker 
+    .5 .5 cropmarker 
+    columns 1.5 add .5 cropmarker 
+ 
+    % dot identifying lower left corner 
+    newpath 5 5 0.2 0 360 arc closepath fill 
+} if 
+ 
+grestore 
+ 
+grestore 
+ 
+showpage 
+
