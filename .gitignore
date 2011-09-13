@@ -1,7 +1,11 @@
 # Editor-generated files
 *~
+*.swp
 
 # OS-generated files
 .DS_Store
 Thumbs.db
-    
+
+# build files
+deploy
+

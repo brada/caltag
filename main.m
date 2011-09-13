@@ -1,14 +1,10 @@
-function main(imageFiles, dataFile, outputFile)
-% eg: main('test/*.png', 'test/output.mat', 'test/points.h5')
+function main(dataFile, outputFile, varargin)
+% eg: main('test/output.mat', 'test/points.h5', 'test/test1.png', 'test/test2.png')
+% when calling from deployed version this becomes:
+% ./run_caltag.sh /path/to/MCR test/output.mat test/points.h5 test/*.png
 
 
-% 'dir' doesn't work because you don't get full paths 
-[~,files] = system( ['ls ', imageFiles] );
-files = textscan( files, '%s' );
-files = files{1};
-
-
-nFiles = length( files );
+nFiles = size( varargin, 2 );
 
 if nFiles == 0
     error( 'No input files found' );
@@ -16,9 +12,10 @@ end
   
  
 for i = 1:nFiles
-    file = files{i};
-    disp( file );
+    file = varargin{i};
+    fprintf( '%s', file );
     [wPt,iPt] = caltag( file, dataFile, false );
+    fprintf( ': %d\n', size(wPt,1) );
     
     dset = ['/', file, '/world'];
     h5create( outputFile, dset, size(wPt), 'ChunkSize',[16,2], 'Deflate',9, 'Shuffle',true );

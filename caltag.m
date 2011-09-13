@@ -63,16 +63,17 @@ end
 if ~exist( datafile, 'file' )
 	error( 'Cannot find .mat file: %s', datafile );
 end
-if isdeployed
-    if ~ismember( debug, {'true','false'} )
-        error( 'debug must be "true" or "false"' );
-    end
-    debug = str2num( debug );
-else
+% rather put the deploy logic into main.m
+%if isdeployed
+%    if ~ismember( debug, {'true','false'} )
+%        error( 'debug must be "true" or "false"' );
+%    end
+%    debug = str2num( debug );
+%else
     if ~islogical( debug )
         error ('debug must be boolean' );
     end
-end
+%end
 if ~exist( 'cornerfinder_saddle_point', 'file' )
     error( 'Please first install the calibration toolbox: http://www.vision.caltech.edu/bouguetj/calib_doc/' );
 end
