@@ -182,6 +182,8 @@ if __name__ == "__main__":
                  help="marker size in inches")
     p.add_option("-m", "--minhamming", dest="minHamming", type="int", default=2,
                  help="minimum hamming distance between codes")
+    p.add_option("-o", "--offset", dest="offset", type="int", default=0,
+                 help="use codes starting from this index")
     p.add_option("--layout2", dest="layout2", action="store_true",
                  default=False, help="use rotated layout")
     p.add_option("-f", "--file", dest="filename", default="output",
@@ -195,8 +197,13 @@ if __name__ == "__main__":
     if nMarkers > len(codes):
         print "Error: insufficient marker IDs for requested resolution"
         exit()
-    markers = codes[:nMarkers]
-    ids = ids[:nMarkers]
+    a, b = opt.offset, opt.offset + nMarkers
+    if b > len(codes):
+        print "Error: insufficient markers IDs from offset {}".format(a)
+        exit()
+    print( "Using codes {}...{} of {}...{}".format(a,b-1,0,len(codes)-1) )
+    markers = codes[a:b]
+    ids = ids[a:b]
     output(opt.filename, markers, ids, opt.rows, opt.cols, opt.scale,
            opt.layout2, opt.minHamming, opt.crcBits, opt.bits-opt.crcBits)
 
