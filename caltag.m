@@ -200,12 +200,10 @@ if layout == 1
             E = bwmorph( E, 'bridge' );
             E = bwmorph( E, 'majority' );
         case 3
-            %E = edge( I, 'log' );
-            
-            % [brad] bugfix 10 Dec 2010, to get Alex's low contrast, blurry dataset to
+            %E = edge( I, 'log' );  
+            % 10 Dec 2010, to get Alex's low contrast, blurry dataset to
             % work:
             E = bwmorph( T, 'thicken' ) - T;
-            
             E = bwmorph( E, 'bridge' );
         otherwise
             error( 'Unsupported image processing mode' );
