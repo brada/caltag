@@ -16,6 +16,10 @@ function [wPt,iPt] = caltag(I,datafile,debug)
 % Conventions: pixel centres lie at integer coordinates. Top left pixel is (1,1)
 % unless you choose the the C-style output in which case it's (0,0)
 %
+% return G = 2xN matrix of grid points, P = 2xN matrix of image points
+% The export_caltag.m function will write out the points to file that can then
+% be calibrated with OpenCV using the wrapper at https://github.com/brada/PyCVcalib
+%
 %	Class Support
 %	-------------
 %	I must be 2D numeric, real, nonsparse.
@@ -24,16 +28,14 @@ function [wPt,iPt] = caltag(I,datafile,debug)
 %	For algorithm details, see
 %	Atcheson, B., Heide, F., Heidrich, W. "CALTag: High Precision Fiducial
 %	Markers for Camera Calibration", VMV 2010
+%   http://www.cs.ubc.ca/labs/imager/tr/2010/Atcheson_VMV2010_CALTag/
 %
-%	Last modified 10 September 2011
-%	This code is public domain. You may use and modify it as you please. Except
-%	for the 3rd party code I used from Peter Kovesi and Jean-Yves Bouguet.
-%
-%
-% return G = 2xN matrix of grid points, P = 2xN matrix of image points
-%
-% See http://www.cs.ubc.ca/labs/imager/tr/2010/Atcheson_VMV2010_CALTag/
-% Thanks to Gordon Wetzstein for testing and bugfixes
+%   Licence:
+%   CALTag is free to use/modify/distribute for noncommercial use.
+%   I'd appreciate an email to let me know where it's being used, but
+%   that's not required. Contact atcheson at cs dot ubc dot ca for
+%   commercial licencing. There is some 3rd party code from Peter Kovesi
+%   and Jean-Yves Bouguet that is subject to its own licence.
 
 
 
