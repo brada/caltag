@@ -46,5 +46,7 @@ WPT(:,3) = 0;
 IPT = fliplr( IPT ) - 1;
 
 %Save result
-hdf5write( destfile, '/WPT', WPT, '/IPT', IPT, '/POINTCOUNT', POINTCOUNT, '/IMGSIZE', IMGSIZE);    
+hdf5write( destfile, '/WPT', WPT, '/IPT', IPT, ...
+            '/POINTCOUNT', POINTCOUNT, '/IMGSIZE', IMGSIZE, ...
+            '/IMGFILES', {imagefiles.name} );
 disp( 'Done' );
