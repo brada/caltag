@@ -168,11 +168,13 @@ if max( [factor(imgHeight),factor(imgWidth)] ) > 21
 	disp( 'Warning: image dimensions have large prime factors' );
 	disp( 'adaptivethresh is fastest on image dimensions with small factors' );
 end
+I = blur(I,3,0.5); % debug for RED data
 normMatrix = [ 2/imgHeight, 0, -1; 0, 2/imgWidth, -1; 0 0 1 ];
 if debug
     disp( 'Adaptive thresholding...' );
 end
 T = adaptivethresh( I );
+T = adaptivethresh( I, round( length(I)/20 ), -15 );
 % [brad] bugfix 10 Dec 2010, Speckle noise can cause isolated bright pixels, which
 % cause lots of tiny regions, artificially decreasing the euler number. So we
 % use a majority filter to eliminate this noise.
@@ -727,7 +729,7 @@ for i = 1:nPoints
     valid(i) = underOne & (beta < 0.2) & (abs( beta - beta_median ) < (6 * beta_std));
     
     %debug: always return true to disable the test
-    %valid(i) = true;
+    valid(i) = true; % rejects many "RED" dataset points
     
     % now that the distribution is correct, do a second test to check if
     % opposite points of a circle sampled around the trial point have
