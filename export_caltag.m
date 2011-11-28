@@ -1,15 +1,22 @@
 function export_caltag( imagefilepattern, datafile )
 %EXPORT_CALTAG Run Caltag on set of images and write results to HDF5 file
-%	EXPORT_CALTAG(imagefilepattern,datafile,destfile)
+%	EXPORT_CALTAG(imagefilepattern,datafile)
+%   This only works when all images matching the pattern are in one
+%   directory, and the results will be written to a file called
+%   "cameracalib.h5" in that same directory.
 %   args:
-%   - imagefilepattern (eg. 'frame_*.png')
-%   - datafile (eg. 'pattern_14x9.mat')
+%   - imagefilepattern (eg. '../data/frame_*.png')
+%   - datafile (eg. '../pattern_14x9.mat')
 %
 % Contributed by Felix Heide, 3 Oct 2011
 % Modified by Brad Atcheson, 25 Oct 2011
+% Modified again, 27 Nov 2011
 
 debug = false;
 [srcPath, ~] = fileparts( imagefilepattern );
+if isempty( srcPath )
+    srcPath = '.';
+end
 originalDir = pwd;
 cd( srcPath );
 srcPath = pwd;
