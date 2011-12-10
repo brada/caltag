@@ -67,16 +67,10 @@ for i = 1:length(imagefiles)
     if nPoints > 0
         dest = fullfile( group, 'imagePoints' );
         write_data( dest, iPt' );
-        %h5create( destfile, dest, size(iPt'), 'DataType',class(iPt) );
-        %h5write( destfile, dest, iPt' );
         dest = fullfile( group, 'worldPoints' );
         write_data( dest, wPt' );
-        %h5create( destfile, dest, size(wPt') );
-        %h5write( destfile, dest, wPt' );
         dest = fullfile( group, 'inlierPoints' );
         write_data( dest, inliers' );
-        %h5create( destfile, dest, nPoints );
-        %h5write( destfile, dest, inliers' );
     
         h5writeatt( destfile, group, 'width', int32(size(I,2)) );
         h5writeatt( destfile, group, 'height', int32(size(I,1)) );
