@@ -561,7 +561,19 @@ iPtUndist = radial_distort( iPt, normMatrix, 1-1/(1+radialDist) );    %-radialDi
 %if debug
 %    plot( iPtUndist(:,2), iPtUndist(:,1), 'c*' );
 %end
-H = ransacfithomography( wPt', iPtUndist', 0.1 );
+try
+    H = ransacfithomography( wPt', iPtUndist', 0.1 );
+catch exception
+    try
+        % try again, possibly using different random sets this time
+        H = ransacfithomography( wPt', iPtUndist', 0.1 );
+    catch exception2
+        % could not get homography
+        disp( 'Could not estimate homography' );
+        disp( 'iPtUndist = ' );
+        disp( iPtUndist );
+    end
+end
 % NxM squares imply (N+1)x(M+1) grid points
 resGrid = fliplr( resPattern + 1 );
 
