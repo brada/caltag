@@ -718,6 +718,10 @@ for i = 1:nPoints
     yi = iPtMissed(i,1) + sampleRows + 0.5;
     zi = interp2( I, xi, yi, '*linear' );
     zi = zi(~isnan(zi)); % in case of extrapolating outside image border
+    if max(zi(:)) - min(zi(:)) < eps
+        valid(i) = false;
+        continue;
+    end
     zi = imadjust( zi, [min(zi(:)),max(zi(:))], [0.01,0.99] );
     % invert half the patches
     if mod( sum(wPtMissed(i,:)), 2 )
