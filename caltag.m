@@ -532,11 +532,16 @@ for i = 1:length(R)
         R(i).isValid = false;
     end
 end
-R = R([R.isValid]);    
-wPt = [R.wPt]';
-iPt = [R.iPt]';
-[wPt,idx] = unique( wPt, 'rows' );
-iPt = iPt(idx,:);
+try
+    R = R([R.isValid]);
+    wPt = [R.wPt]';
+    iPt = [R.iPt]';
+    [wPt,idx] = unique( wPt, 'rows' );
+    iPt = iPt(idx,:);
+catch exception
+    iPt = [];
+    wPt = [];
+end
 
 if isempty( iPt ) || isempty( wPt )
     disp( 'No valid codes detected' );
