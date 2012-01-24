@@ -1152,8 +1152,9 @@ function v = validate_point( I, row, col, radius )
     nCircSamples = ceil( 2 * pi * radius );
     [sx,sy] = pol2cart( linspace(0,2*pi,nCircSamples+1), radius );
     % no point in sampling at 2*pi as well as 0
-    sx = sx(1:end-1) + col - 0.5;
-    sy = sy(1:end-1) + row + 0.5;
+    % [bugfix 24 Jan 2012: remove incorrect 0.5 shift (Ofri)]
+    sx = sx(1:end-1) + col;%- 0.5;
+    sy = sy(1:end-1) + row;%+ 0.5;
     zi = interp2( I, sx, sy, '*linear' );
     %zi = imadjust( zi, [min(zi(:)),max(zi(:))], [0,1] );
 %    zi = [ zi(1:nCircSamples/2); zi(nCircSamples/2+1:end) ];
