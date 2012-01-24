@@ -124,7 +124,9 @@ def computeCodes(idBits, crcBits, minHamming):
 
 
 def output(filename, markers, ids, nrows, ncols, scale, layout2,
-           minHamming, crcBits, idBits, width=8.5, height=11.0):
+           metric, minHamming, crcBits, idBits, width=8.5, height=11.0):
+    if metric:
+        scale /= 2.54
     landscape = nrows < ncols
     orientations = ["Portrait", "Landscape"]
     if landscape:
@@ -159,6 +161,8 @@ def output(filename, markers, ids, nrows, ncols, scale, layout2,
     resPattern = np.array([nrows,ncols], dtype=np.double)
     codes = np.array(codes, dtype=np.double)
     ids = np.array(ids, dtype=np.double)
+    if metric:
+        scale *= 2.54
     mDict = {'crcBits':crcBits, 'idBits':idBits, 'layout':int(layout2)+1,
              'minHamming':minHamming, 'ID':ids, 'CODE':codes,
              'resCode':resCode, 'resMarker':resMarker, 'resPattern':resPattern,
@@ -184,6 +188,8 @@ if __name__ == "__main__":
                  help="minimum hamming distance between codes")
     p.add_option("-o", "--offset", dest="offset", type="int", default=0,
                  help="use codes starting from this index")
+    p.add_option("--metric", dest="metric", action="store_true",
+                 default=False, help="use centimeters instead of inches")
     p.add_option("--layout2", dest="layout2", action="store_true",
                  default=False, help="use rotated layout")
     p.add_option("-f", "--file", dest="filename", default="output",
@@ -205,7 +211,8 @@ if __name__ == "__main__":
     markers = codes[a:b]
     ids = ids[a:b]
     output(opt.filename, markers, ids, opt.rows, opt.cols, opt.scale,
-           opt.layout2, opt.minHamming, opt.crcBits, opt.bits-opt.crcBits)
+           opt.layout2, opt.metric, opt.minHamming, opt.crcBits,
+           opt.bits-opt.crcBits)
 
     print "Finished"
 
