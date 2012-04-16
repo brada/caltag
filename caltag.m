@@ -101,7 +101,8 @@ iPt = [];
 %% load and check datafile
 load( datafile );
 expectedVars = { 'resPattern', 'resMarker', 'resCode', 'idBits', ...
-                 'layout', 'ID', 'CODE', 'scale' };
+                 'layout', 'ID', 'CODE', 'scale', ...
+                 'minHamming' };
 if ~all( ismember(expectedVars,who) )
 	error( 'Datafile does not contain required variables' );
 end

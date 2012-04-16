@@ -3,6 +3,8 @@
 # This is a port of mda-newcaltag.C
 # Note that template.ps must be in the cwd when executing this script
 
+# 28/03/2012: [Ivo] Added white/black level and A4/A3/A0 paper sizes
+
 from optparse import OptionParser
 from math import sqrt
 from time import localtime, strftime
@@ -123,7 +125,15 @@ def computeCodes(idBits, crcBits, minHamming):
     return (codes, ids)
 
 
-def output(filename, markers, ids, nrows, ncols, scale, layout2,
+#Ivo: support different paper formats
+#
+#A4  -  8.3 x 11.7 in
+#A3  - 11.7 x 16.5 in
+#A0  - 33.1 x 46.8 in
+
+def output(filename, markers, ids, nrows, ncols,
+           blacklevel, whitelevel,
+           scale, layout2,
            metric, minHamming, crcBits, idBits, width=8.5, height=11.0):
     if metric:
         scale /= 2.54
@@ -151,6 +161,8 @@ def output(filename, markers, ids, nrows, ncols, scale, layout2,
             MARKER_SIZE_IN_INCHES = scale,
             NUM_COLUMNS = ncols,
             NUM_ROWS = nrows,
+            BLACK_LEVEL = blacklevel,
+            WHITE_LEVEL = whitelevel,
             MARKER_IDS = markers,
             LANDSCAPE_ROTATION = rotate)
     dest = open(filename+".ps", "w")
@@ -182,6 +194,10 @@ if __name__ == "__main__":
                  help="number of rows")
     p.add_option("-c", "--cols", dest="cols", type="int", default=4,
                  help="number of columns")
+    p.add_option("-b","--blacklevel", type="float",default=0.0,
+                 help="black level of checkerboard (between 0 and 1)")
+    p.add_option("-w","--whitelevel", type="float",default=1.0,
+                 help="white level of checkerboard (between 0 and 1)")
     p.add_option("-s", "--scale", dest="scale", type="float", default=1.0,
                  help="marker size in inches")
     p.add_option("-m", "--minhamming", dest="minHamming", type="int", default=2,
@@ -210,7 +226,9 @@ if __name__ == "__main__":
     print( "Using codes {}...{} of {}...{}".format(a,b-1,0,len(codes)-1) )
     markers = codes[a:b]
     ids = ids[a:b]
-    output(opt.filename, markers, ids, opt.rows, opt.cols, opt.scale,
+    output(opt.filename, markers, ids, opt.rows, opt.cols,
+           opt.blacklevel, opt.whitelevel,
+           opt.scale,
            opt.layout2, opt.metric, opt.minHamming, opt.crcBits,
            opt.bits-opt.crcBits)
 
