@@ -879,9 +879,10 @@ function [isQuad,corners,corners_0] = fitquad( bbox, mask, layout )
     seedIdx1 = floor( linspace( 1, size(gradients,1), 5 ) );
     seedIdx2 = seedIdx1 + floor( diff(seedIdx1(1:2))/2 );
     seeds = cat( 3, gradients(seedIdx1(1:4),:), gradients(seedIdx2(1:4),:) );
-    [clusteridx,clustermeans] = kmeans( gradients, 4, 'start',seeds );
+    [clusteridx,clustermeans] = kmeans( gradients, 4, 'start',seeds, 'emptyaction','drop' );
     
-    if length( clustermeans ) ~= 4
+    nClusters = sum( isfinite( clustermeans(:,1) ) );
+    if nClusters ~= 4
         return;
     end    
     % initial assignments of points to lines
