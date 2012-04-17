@@ -17,6 +17,12 @@
 
 /rows { $NUM_ROWS } bind def
 
+%Ivo: change black and white levels
+/blacklevel { $BLACK_LEVEL } bind def
+
+/whitelevel { $WHITE_LEVEL } bind def
+%Ivo end
+
 /drawcropmarkers { true } bind def
 
 /markerids { [
@@ -94,16 +100,16 @@ gsave
 	8 mul exch 8 mul exch translate 
 	add 2 mod 1 eq { 
 	    % black background for odd checkers 
-	    0 setgray 
+	    blacklevel setgray 
 	    newpath 
 	    0 0 moveto 8 0 lineto 8 8 lineto 0 8 lineto 
 	    closepath fill 
 	    % white boxes for 0 pixels 
-	    1 setgray 
+	    whitelevel setgray 
 	    drawcode 
 	} { 
 	    % even checkers - black boxes for 1 pixels 
-	    0 setgray 
+	    blacklevel setgray 
 	    not drawcode 
 	} ifelse 
 	grestore 
@@ -113,13 +119,13 @@ gsave
 	8 mul exch 8 mul 4 add exch translate 
 	45 rotate 
 	sqtwoinv dup scale 
-	0 setgray 
+	blacklevel setgray 
 	% black background octagon 
 	newpath 
 	1 0 moveto 7 0 lineto 8 1 lineto 8 7 lineto 7 8 lineto 1 8 lineto 0 7 lineto 0 1 lineto 
 	closepath fill 
 	% white squares for 0 pixels 
-	1 setgray 
+	whitelevel setgray 
 	drawcode 
 	grestore 
     } ifelse 
@@ -130,7 +136,7 @@ gsave
 /bowtie { 
     gsave 
     8 mul exch 8 mul exch translate 
-    0 setgray 
+    blacklevel setgray 
     newpath 0 0 moveto 0 sqtwoinv -4 mul dup 0 lineto lineto closepath fill 
     newpath 0 0 moveto 0 sqtwoinv 4 mul dup 0 lineto lineto closepath fill 
     grestore 
@@ -141,7 +147,7 @@ gsave
 /hBoundary { 
     gsave 
     8 mul exch 8 mul exch translate 
-    0 setgray 
+    blacklevel setgray 
     newpath 0 0 moveto 8 0 lineto 8 4 lineto 0 4 lineto closepath fill 
     grestore 
 } def 
@@ -151,7 +157,7 @@ gsave
 /vBoundary { 
     gsave 
     8 mul exch 8 mul exch translate 
-    0 setgray 
+    blacklevel setgray 
     newpath 0 0 moveto 0 8 lineto 4 8 lineto 4 0 lineto closepath fill 
     grestore 
 } def 
@@ -160,7 +166,7 @@ gsave
 % stack: x y 
 /cropmarker { 
     gsave 
-    0 setgray 
+    blacklevel setgray 
     8 mul exch 8 mul exch translate 
     newpath -2 0 moveto 2 0 lineto stroke 
     newpath 0 -2 moveto 0 2  lineto stroke 
