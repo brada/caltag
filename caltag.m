@@ -553,6 +553,16 @@ if debug
     disp( radialDist );
 end
 
+% 1 May 2012:
+% Chen Xing discovered bug here - radial distortion estimator (or undistorter)
+% function is bad. For lens with moderate distortion, where caltag grid appears
+% only on extreme edge of image, it gives poor estimate, which throws off rest
+% of calibration and causes other weird errors to appear. Solution is to fix the
+% radial distortion estimation/undistortion process, or for now, just disable it
+if debug
+    disp('FIXME: radialDist');
+end
+radialDist = 0.0;
 
 % now look for any points we may have missed
 % undistort detected points, then try to fit a homography
