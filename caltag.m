@@ -178,6 +178,9 @@ T = adaptivethresh( I );
 % cause lots of tiny regions, artificially decreasing the euler number. So we
 % use a majority filter to eliminate this noise.
 T = bwmorph( T, 'majority' );
+% [philippe] bugfix 3 Dec 2012
+T = single( T );
+% /bugfix
 if debug
     disp( 'Finding regions...' );
 end
