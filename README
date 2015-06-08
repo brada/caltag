@@ -3,7 +3,7 @@ CALTag instructions for use:
 
 0) Requirements:
 
-- MATLAB (tested with R2010a) with Image Processing toolbox
+- MATLAB (tested with R2010a) with Image Processing toolbox. It has been reported broken in MATLAB 2014. You can work around the problem by copying the kmeans function from an earlier version of MATLAB, or uncommenting the "MATLAB 2014" lines in caltag.m
 - Python (tested with 2.6)
 
 
@@ -59,5 +59,5 @@ just modify the return value.
 
 3) Contact:
 
-Questions/comments/bugfixes welcome.
-Email me at: atcheson [NOSPAM] [at] cs [dot] ubc [dot] ca
+This code is supported on a best-effort basis. I have no plans to make any further modifications.
+Email: atcheson [NOSPAM] [at] cs [dot] ubc [dot] ca

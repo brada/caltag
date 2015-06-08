@@ -891,8 +891,15 @@ function [isQuad,corners,corners_0] = fitquad( bbox, mask, layout )
     % istraversed in order, we can choose equispaced gradients as the seeds
     seedIdx1 = floor( linspace( 1, size(gradients,1), 5 ) );
     seedIdx2 = seedIdx1 + floor( diff(seedIdx1(1:2))/2 );
+    % -- Due to changes in the kmeans function under MATLAB 2014, replace the following 2 lines with the 4 commented lines below.
     seeds = cat( 3, gradients(seedIdx1(1:4),:), gradients(seedIdx2(1:4),:) );
     [clusteridx,clustermeans] = kmeans( gradients, 4, 'start',seeds, 'emptyaction','drop' );
+    % -- start of MATLAB 2014 code
+    % seeds = gradients(seedIdx2(1:4),:);
+    % [clusteridx, clustermeans] = kmeans( gradients', 4, seeds' );
+    % clusteridx = clusteridx';
+    % clustermeans = clustermeans';
+    % -- end of MATLAB 2014 code
     
     nClusters = sum( isfinite( clustermeans(:,1) ) );
     if nClusters ~= 4
