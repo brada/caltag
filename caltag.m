@@ -618,6 +618,7 @@ end
 % nearest corner of code dots
 %rad = 0.75 * norm( H(1:2,1:2) * (resBorder./resMarker)' );
 rad = floor(0.5 * norm( H(1:2,1:2) * (resBorder./resMarker)' ));
+rad = max(rad, 2);
 warning off MATLAB:nearlySingularMatrix
 [trialPoints] = cornerfinder_saddle_point( flipud(trialPoints), I, rad,rad );
 [trialPoints,good] = cornerfinder_saddle_point( trialPoints, I, 9,9 ); %before trying Anika's dataset: 3x3
