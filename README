@@ -4,6 +4,8 @@ CALTag instructions for use:
 0) Requirements:
 
 - MATLAB (tested with R2010a) with Image Processing toolbox. It has been reported broken in MATLAB 2014. You can work around the problem by copying the kmeans function from an earlier version of MATLAB, or uncommenting the "MATLAB 2014" lines in caltag.m
+- MATLAB Optimization toolbox (lsqnonlin)
+- MATLAB Statistics and Machine Learning toolbox (means)
 - Python (tested with 2.6)
 
 
