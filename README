@@ -1,31 +1,42 @@
-CALTag instructions for use:
-----------------------------
-
-0) Requirements:
-
-- MATLAB (tested with R2010a) with Image Processing toolbox. It has been reported broken in MATLAB 2014. You can work around the problem by copying the kmeans function from an earlier version of MATLAB, or uncommenting the "MATLAB 2014" lines in caltag.m
-- MATLAB Optimization toolbox (lsqnonlin)
-- MATLAB Statistics and Machine Learning toolbox (means)
-- Python (tested with 2.6)
+# CALTag
 
 
-1) Create pattern and datafile:
+## News
+
+2018-05-21: LAUCalTagWidget: Daniel Lau has built a real-time implementation of CALTag, available [here](https://github.com/drhalftone/LAUCalTagWidget).
+
+
+## Instructions
+
+### 1. Requirements:
+
+  * MATLAB (tested with R2010a) with Image Processing toolbox. It has been reported broken in MATLAB 2014. You can work around the problem by copying the kmeans function from an earlier version of MATLAB, or uncommenting the "MATLAB 2014" lines in caltag.m
+  * MATLAB Optimization toolbox (lsqnonlin)
+  * MATLAB Statistics and Machine Learning toolbox (means)
+  * Python (tested with 2.6)
+
+
+### 2. Create pattern and datafile:
 
 Run the generate_pattern.py script and convert the ps file to pdf, e.g.:
 
+```bash
 $ cd GeneratePattern
 $ chmod u+x generate_pattern
 $ ./generate_pattern -r 8 -c 4
+```
 
 This will produce an output.ps and output.mat file
 Convert the ps to pdf for easier printing:
 
+```bash
 $ ps2pdf output.ps output.pdf
+```
 
 Print the output.pdf file, mount it to a flat surface and photograph it.
 
 
-2) Run CALTag:
+### 3. Run CALTag:
 
 Download the photos and start Matlab. Please note that Matlab 2010a or later is
 required, since parts of the code make use of the new "[~,x] = func()" syntax
@@ -40,12 +51,16 @@ for details.
 
 Add CALTag to your path
 
+```matlab
 > addpath( '/path/to/caltag' )
+```
 
 Load an image and run CALTag
 
+```matlab
 >> I = imread( 'IMG001.jpg' );
 >> [wPt,iPt] = caltag( I, '/path/to/caltag/GeneratePattern/output.mat', false );
+```
 
 The second argument is the location of the datafile produced by
 generate_pattern. It contains all the parameters of your particular pattern.
@@ -59,7 +74,6 @@ you can switch if you prefer C-style 0-based [x,y] coordinates, or else you can
 just modify the return value.
 
 
-3) Contact:
+## Support
 
 This code is supported on a best-effort basis. I have no plans to make any further modifications.
-Email: atcheson [NOSPAM] [at] cs [dot] ubc [dot] ca
