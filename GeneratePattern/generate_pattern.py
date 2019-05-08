@@ -164,6 +164,7 @@ def output(filename, markers, ids, nrows, ncols,
             BLACK_LEVEL = blacklevel,
             WHITE_LEVEL = whitelevel,
             MARKER_IDS = markers,
+            PAGE_TITLE = pagetitle,
             LANDSCAPE_ROTATION = rotate)
     dest = open(filename+".ps", "w")
     with open(filename+".ps", "w") as f:
@@ -225,6 +226,7 @@ if __name__ == "__main__":
         exit()
     print( "Using codes {}...{} of {}...{}".format(a,b-1,0,len(codes)-1) )
     markers = codes[a:b]
+    pagetitle = format(a) + "..." + format(b-1)
     ids = ids[a:b]
     output(opt.filename, markers, ids, opt.rows, opt.cols,
            opt.blacklevel, opt.whitelevel,
@@ -233,4 +235,3 @@ if __name__ == "__main__":
            opt.bits-opt.crcBits)
 
     print "Finished"
-

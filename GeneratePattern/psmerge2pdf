@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# psmerge2pdf - Modified by Leon Shaner, based on
+# psmerge - Written by Jeff Spirko <spirko@yahoo.com>, based on
+#   http://ktmatu.com/info/merge-pdf-files/
+# Requires that ghostscript is installed and in the path, and of
+# course the bash shell that is provided with all Linux distros.
+
+# Usage: psmerge file1.ps file2.ps ...
+# Creates the file merged.ps.ps and leaves some .ps files laying
+# around.
+
+
+# Check args
+if [ -z "$1" ] ; then
+	echo "Please pass filenames/patterns on command line."
+	echo "Example:"
+	echo "		$0 caltag18-6x6-*.ps"
+	exit 1
+fi
+
+
+# Use the first filename to derive intermediate and final filenames
+# This assumes a "-" appears before the unique number part of the filename
+# but falls back to a simple name if that assumption is bad.
+filenamepat=$(echo $1 | sed -n 's/\(.*\)-[0-9]*\.ps/\1/p')
+[ -z "$filenamepat" ] && filenamepat="combined"
+
+
+
+# Header for concat.ps
+cat > concat-${filenamepat}.ps <<EOF
+%!PS
+% Written by Helge Blischke, see
+% http://groups.google.com/groups?ic=1&selm=3964A684.49D%40srz-berlin.de
+%
+% The following 2 procs encapsulate the jobs to be processed
+% much as is done with EPS images:
+/_begin_job_
+{
+        /tweak_save save def
+        /tweak_dc countdictstack def
+        /tweak_oc count 1 sub def
+        userdict begin
+}bind def
+
+/_end_job_
+{
+        count tweak_oc sub{pop}repeat
+        countdictstack tweak_dc sub{end}repeat
+        tweak_save restore
+}bind def
+
+EOF
+
+
+# Per-file information in *concat.ps
+for f ; do
+echo _begin_job_ >> concat-${filenamepat}.ps
+echo "/BeginPage {pop $f }" >> concat-${filenamepat}.ps
+printf "(%s)run\n" $f >> concat-${filenamepat}.ps
+echo _end_job_ >> concat-${filenamepat}.ps
+done
+
+# The following command puts your merged ps files into *-merged.ps
+ps2ps -dNOSAFER concat-${filenamepat}.ps merged-${filenamepat}.ps
+
+# The following command converts your *-merged.ps to *-merged.pdf
+ps2pdf merged-${filenamepat}.ps merged-${filenamepat}.pdf
+
+# Echo the names of the output files
+echo "Outputfiles are merged-${filenamepat}.ps and merged-${filenamepat}.pdf"
