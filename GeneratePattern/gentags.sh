@@ -54,7 +54,7 @@ digits=$((digits -1))
 currcode=0
 while [ $currcode -lt $endcode ] ; do
     padname=$(echo $currcode | awk "{printf (\"%0${digits}d\", \$0)}")
-    echo genrate_pattern.py --bits=$bits --crcbits=$crcbits --rows=$rows --cols=$cols --scale=$scale --offset=$currcode --file=${fprefix}${padname}
-    ./genrate_pattern.py --bits=$bits --crcbits=$crcbits --rows=$rows --cols=$cols --scale=$scale --offset=$currcode --file=${fprefix}${padname}
+    echo generate_pattern.py --bits=$bits --crcbits=$crcbits --rows=$rows --cols=$cols --scale=$scale --offset=$currcode --file=${fprefix}${padname}
+    ./generate_pattern.py --bits=$bits --crcbits=$crcbits --rows=$rows --cols=$cols --scale=$scale --offset=$currcode --file=${fprefix}${padname}
     currcode=$((currcode + size))
 done
