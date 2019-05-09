@@ -17,6 +17,11 @@
 
 /rows { $NUM_ROWS } bind def
 
+%Lds: define optional page title position
+/titlepos { rows 11 mul } bind def
+/addpagetitle { true } bind def
+%Lds end
+
 %Ivo: change black and white levels
 /blacklevel { $BLACK_LEVEL } bind def
 
@@ -24,6 +29,7 @@
 %Ivo end
 
 /drawcropmarkers { true } bind def
+
 
 /markerids { [
 $MARKER_IDS
@@ -266,6 +272,12 @@ drawcropmarkers {
     % dot identifying lower left corner 
     newpath 5 5 0.2 0 360 arc closepath fill 
 } if 
+
+%Lds Add optional page title
+addpagetitle { 
+/Courier findfont 5 scalefont setfont  
+5 titlepos moveto ($PAGE_TITLE) show  
+} if
  
 grestore 
  
