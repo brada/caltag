@@ -223,14 +223,13 @@ if __name__ == "__main__":
     codes, ids = computeCodes(opt.idBits, opt.crcBits, opt.minHamming)
     nMarkers = opt.rows * opt.cols
     if nMarkers > len(codes):
-        print( "Error: insufficient marker IDs for requested resolution")
-        print(nMarkers, len(codes))
+        print("Error: insufficient marker IDs for requested resolution")
         exit()
     a, b = opt.offset, opt.offset + nMarkers
     if b > len(codes):
-        print( "Error: insufficient markers IDs from offset {}".format(a))
+        print("Error: insufficient markers IDs from offset {}".format(a))
         exit()
-    print( "Using codes {}...{} of {}...{}".format(a,b-1,0,len(codes)-1) )
+    print("Using codes {}...{} of {}...{}".format(a,b-1,0,len(codes)-1) )
     markers = codes[a:b]
     pagetitle = format(a) + "..." + format(b-1)
     ids = ids[a:b]
@@ -240,4 +239,4 @@ if __name__ == "__main__":
            opt.layout2, opt.metric, opt.minHamming, opt.crcBits,
            opt.bits-opt.crcBits)
 
-    print( "Finished")
+    print("Finished")
