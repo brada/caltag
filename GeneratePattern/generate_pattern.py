@@ -109,9 +109,9 @@ def computeCodes(idBits, crcBits, minHamming):
     numEntries = 2 ** idBits
     bits = idBits + crcBits
     codes = [crc.encode(i) for i in range(numEntries)]
-    #print "initially, num codes =", len(codes)
-    codes = filter(lambda x: numOnesOkay(x,idBits+crcBits), codes)
-    #print "after bitcount filter =", len(codes)
+    #print("initially, num codes =", len(codes))
+    codes = list(filter(lambda x: numOnesOkay(x,idBits+crcBits), codes))
+    #print("after bitcount filter =", len(codes))
     valid = [True for x in codes]
     for idx, x in enumerate(codes):
         if valid[idx]:
@@ -148,8 +148,13 @@ def output(filename, markers, ids, nrows, ncols,
     ids = np.flipud(np.reshape(ids,(nrows,ncols)))
     markers = [str(i) for i in markers]
     markers = [markers[i:i+ncols] for i in range(0,len(markers),ncols)]
-    markers = [string.join(i) for i in markers]
-    markers = string.join(markers, "\n")
+    # differences in "join" operator between python 2 and 3
+    try:
+        markers = [' '.join(i) for i in markers]
+        markers = '\n'.join(markers)
+    except:
+        markers = [string.join(i) for i in markers]
+        markers = string.join(markers, "\n")
     template = open("template.ps", "r").read()
     template = string.Template(template)
     s = template.substitute(
@@ -218,11 +223,12 @@ if __name__ == "__main__":
     codes, ids = computeCodes(opt.idBits, opt.crcBits, opt.minHamming)
     nMarkers = opt.rows * opt.cols
     if nMarkers > len(codes):
-        print "Error: insufficient marker IDs for requested resolution"
+        print( "Error: insufficient marker IDs for requested resolution")
+        print(nMarkers, len(codes))
         exit()
     a, b = opt.offset, opt.offset + nMarkers
     if b > len(codes):
-        print "Error: insufficient markers IDs from offset {}".format(a)
+        print( "Error: insufficient markers IDs from offset {}".format(a))
         exit()
     print( "Using codes {}...{} of {}...{}".format(a,b-1,0,len(codes)-1) )
     markers = codes[a:b]
@@ -234,4 +240,4 @@ if __name__ == "__main__":
            opt.layout2, opt.metric, opt.minHamming, opt.crcBits,
            opt.bits-opt.crcBits)
 
-    print "Finished"
+    print( "Finished")
