@@ -166,8 +166,8 @@ end
 I = im2single( I );
 [imgHeight,imgWidth] = size( I );
 if max( [factor(imgHeight),factor(imgWidth)] ) > 21
-	disp( 'Warning: image dimensions have large prime factors' );
-	disp( 'adaptivethresh is fastest on image dimensions with small factors' );
+	%disp( 'Warning: image dimensions have large prime factors' );
+	%disp( 'adaptivethresh is fastest on image dimensions with small factors' );
 end
 normMatrix = [ 2/imgHeight, 0, -1; 0, 2/imgWidth, -1; 0 0 1 ];
 if debug
@@ -1001,7 +1001,7 @@ function [isQuad,corners,corners_0] = fitquad( bbox, mask, layout )
 % dir is a unit vector
 function line = fitline( points )
     points = points(~isnan(points(:,1)),:);
-    if size( points, 2 ) < 2
+    if ((size( points, 2 ) < 2) || isempty(points)) % TODO: pull request to github?
         line = [];
         return;
     end
